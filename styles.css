@@ -20,3 +20,27 @@ canvas {
   border-radius: 3px;
   background-color: #76abae;
 }
+
+#startButton {
+  background-color: #31363f;
+  color: #eeeeee;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border-radius: 3px;
+  margin-top: 20px;
+}
+
+#startButton:hover {
+  background-color: #555555;
+}
+
+#startButton:active {
+  background-color: #31363f;
+}
+
+#startButton:disabled {
+  background-color: #555555;
+  cursor: not-allowed;
+}
