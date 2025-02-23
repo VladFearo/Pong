@@ -6,7 +6,12 @@ class Player {
     this.height = height;
     this.speed = speed;
     this.velocityY = 0;
-    this.score = 0; // Add score tracking
+    this.score = 0;
+  }
+
+  reset() {
+    this.score = 0;
+    this.velocityY = 0;
   }
 
   update(deltaTime, boardHeight) {
@@ -127,10 +132,11 @@ class Game {
     this.canvas.width = this.boardWidth;
     this.canvas.height = this.boardHeight;
     this.keys = {};
+    this.winningScore = 5; // Add winning score constant
 
     this.isPlaying = false;
 
-    const ballRadius = 10; // Define ball radius
+    const ballRadius = 10;
     this.ball = new Ball(
       this.boardWidth / 2,
       this.boardHeight / 2,
@@ -171,6 +177,24 @@ class Game {
     });
   }
 
+  checkWinner() {
+    if (
+      this.player1.score >= this.winningScore ||
+      this.player2.score >= this.winningScore
+    ) {
+      this.isPlaying = false;
+      return true;
+    }
+    return false;
+  }
+
+  reset() {
+    this.player1.reset();
+    this.player2.reset();
+    this.ball.reset(this.boardWidth, this.boardHeight);
+    this.isPlaying = false;
+  }
+
   update(deltaTime) {
     // Update player1 using "w" and "s"
     if (this.keys["w"]) {
@@ -202,6 +226,12 @@ class Game {
         this.player1,
         this.player2
       );
+
+      // Check for winner after ball update
+      if (this.checkWinner()) {
+        const startBtn = document.getElementById("startButton");
+        startBtn.disabled = false;
+      }
     }
   }
 
@@ -223,16 +253,31 @@ class Game {
     this.player2.draw(this.ctx);
     this.ball.draw(this.ctx);
 
-    // Draw "Press Start" message when not playing
+    // Draw message when not playing
     if (!this.isPlaying) {
       this.ctx.fillStyle = "#222831";
       this.ctx.font = "24px Arial";
       this.ctx.textAlign = "center";
-      this.ctx.fillText(
-        "Press Start to Play!",
-        this.boardWidth / 2,
-        this.boardHeight / 2 + 50
-      );
+
+      if (this.player1.score >= this.winningScore) {
+        this.ctx.fillText(
+          "Player 1 Wins! Press Start to Play Again!",
+          this.boardWidth / 2,
+          this.boardHeight / 2 + 50
+        );
+      } else if (this.player2.score >= this.winningScore) {
+        this.ctx.fillText(
+          "Player 2 Wins! Press Start to Play Again!",
+          this.boardWidth / 2,
+          this.boardHeight / 2 + 50
+        );
+      } else {
+        this.ctx.fillText(
+          "Press Start to Play!",
+          this.boardWidth / 2,
+          this.boardHeight / 2 + 50
+        );
+      }
     }
   }
 
@@ -255,6 +300,13 @@ class Game {
 
   startGame() {
     if (!this.isPlaying) {
+      // Reset scores if a player has won
+      if (
+        this.player1.score >= this.winningScore ||
+        this.player2.score >= this.winningScore
+      ) {
+        this.reset();
+      }
       this.isPlaying = true;
       this.ball.reset(this.boardWidth, this.boardHeight);
     }
