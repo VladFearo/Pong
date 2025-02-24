@@ -21,7 +21,7 @@ canvas {
   background-color: #76abae;
 }
 
-#startButton {
+button {
   background-color: #31363f;
   color: #eeeeee;
   border: none;
@@ -32,15 +32,15 @@ canvas {
   margin-top: 20px;
 }
 
-#startButton:hover {
+button:hover {
   background-color: #555555;
 }
 
-#startButton:active {
+button:active {
   background-color: #31363f;
 }
 
-#startButton:disabled {
+button:disabled {
   background-color: #555555;
   cursor: not-allowed;
 }
