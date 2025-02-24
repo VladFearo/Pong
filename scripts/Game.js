@@ -1,44 +1,40 @@
 import Ball from "./entities/Ball.js";
 import Player from "./entities/Player.js";
+import { GAME_CONFIG } from "./config/gameConfig.js";
 
 export default class Game {
   constructor(canvas) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
-    this.boardWidth = 800;
-    this.boardHeight = 500;
+    this.boardWidth = GAME_CONFIG.BOARD_WIDTH;
+    this.boardHeight = GAME_CONFIG.BOARD_HEIGHT;
     this.canvas.width = this.boardWidth;
     this.canvas.height = this.boardHeight;
     this.keys = {};
-    this.winningScore = 5; // Add winning score constant
-
+    this.winningScore = GAME_CONFIG.WINNING_SCORE;
     this.isPlaying = false;
 
-    const ballRadius = 10;
     this.ball = new Ball(
       this.boardWidth / 2,
       this.boardHeight / 2,
-      ballRadius,
+      GAME_CONFIG.BALL_RADIUS,
       0,
       0
     );
 
-    const playerWidth = 20;
-    const playerHeight = 80;
-    const speed = 500;
     this.player1 = new Player(
       10,
-      this.boardHeight / 2 - playerHeight / 2,
-      playerWidth,
-      playerHeight,
-      speed
+      this.boardHeight / 2 - GAME_CONFIG.PLAYER_HEIGHT / 2,
+      GAME_CONFIG.PLAYER_WIDTH,
+      GAME_CONFIG.PLAYER_HEIGHT,
+      GAME_CONFIG.PLAYER_SPEED
     );
     this.player2 = new Player(
-      this.boardWidth - playerWidth - 10,
-      this.boardHeight / 2 - playerHeight / 2,
-      playerWidth,
-      playerHeight,
-      speed
+      this.boardWidth - GAME_CONFIG.PLAYER_WIDTH - 10,
+      this.boardHeight / 2 - GAME_CONFIG.PLAYER_HEIGHT / 2,
+      GAME_CONFIG.PLAYER_WIDTH,
+      GAME_CONFIG.PLAYER_HEIGHT,
+      GAME_CONFIG.PLAYER_SPEED
     );
 
     this.lastTime = 0;
@@ -47,11 +43,11 @@ export default class Game {
 
   addEventListeners() {
     document.addEventListener("keydown", (event) => {
-      this.keys[event.key] = true;
+      this.keys[event.code] = true;
     });
 
     document.addEventListener("keyup", (event) => {
-      this.keys[event.key] = false;
+      this.keys[event.code] = false;
     });
   }
 
@@ -75,9 +71,9 @@ export default class Game {
 
   update(deltaTime) {
     // Update player1 using "w" and "s"
-    if (this.keys["w"]) {
+    if (this.keys["KeyW"]) {
       this.player1.velocityY = -this.player1.speed;
-    } else if (this.keys["s"]) {
+    } else if (this.keys["KeyS"]) {
       this.player1.velocityY = this.player1.speed;
     } else {
       this.player1.velocityY = 0;
