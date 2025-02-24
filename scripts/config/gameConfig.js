@@ -1,0 +1,14 @@
+export const GAME_CONFIG = {
+  BOARD_WIDTH: 800,
+  BOARD_HEIGHT: 500,
+  WINNING_SCORE: 5,
+  PLAYER_WIDTH: 20,
+  PLAYER_HEIGHT: 80,
+  PLAYER_SPEED: 500,
+  BALL_RADIUS: 10,
+  COLORS: {
+    PLAYER: "#222831",
+    BALL: "#eeeeee",
+    CENTER_LINE: "#222831",
+  },
+};
