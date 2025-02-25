@@ -13,14 +13,9 @@ export default class Game {
     this.keys = {};
     this.winningScore = GAME_CONFIG.WINNING_SCORE;
     this.isPlaying = false;
+    this.currentSpeed = "normal";
 
-    this.ball = new Ball(
-      this.boardWidth / 2,
-      this.boardHeight / 2,
-      GAME_CONFIG.BALL_RADIUS,
-      0,
-      0
-    );
+    this.ball = this.createBall();
 
     this.player1 = new Player(
       10,
@@ -39,6 +34,49 @@ export default class Game {
 
     this.lastTime = 0;
     this.addEventListeners();
+  }
+
+  createBall() {
+    return new Ball(
+      this.boardWidth / 2,
+      this.boardHeight / 2,
+      GAME_CONFIG.BALL_RADIUS,
+      this.getSpeedValue(this.currentSpeed)
+    );
+  }
+
+  getSpeedValue(speed) {
+    switch (speed) {
+      case "slow":
+        return GAME_CONFIG.BALL_SPEED * 0.5;
+      case "normal":
+        return GAME_CONFIG.BALL_SPEED;
+      case "fast":
+        return GAME_CONFIG.BALL_SPEED * 2;
+      default:
+        return GAME_CONFIG.BALL_SPEED;
+    }
+  }
+
+  setSpeed(speed) {
+    this.currentSpeed = speed;
+    const newSpeed = this.getSpeedValue(speed);
+
+    if (this.ball) {
+      // Preserve ball position, only update speed
+      const currentDirectionX = Math.sign(this.ball.speedX);
+      const currentDirectionY = Math.sign(this.ball.speedY);
+
+      this.ball.baseSpeed = newSpeed;
+      this.ball.speedX =
+        Math.abs(this.ball.speedX) *
+        currentDirectionX *
+        (newSpeed / GAME_CONFIG.BALL_SPEED);
+      this.ball.speedY =
+        Math.abs(this.ball.speedY) *
+        currentDirectionY *
+        (newSpeed / GAME_CONFIG.BALL_SPEED);
+    }
   }
 
   addEventListeners() {
@@ -66,11 +104,12 @@ export default class Game {
     this.player1.reset();
     this.player2.reset();
     this.ball.reset(this.boardWidth, this.boardHeight);
+    this.setSpeed(this.currentSpeed);
     this.isPlaying = false;
+    this.ball = this.createBall();
   }
 
   update(deltaTime) {
-    // Update player1 using "w" and "s"
     if (this.keys["KeyW"]) {
       this.player1.velocityY = -this.player1.speed;
     } else if (this.keys["KeyS"]) {
@@ -79,7 +118,6 @@ export default class Game {
       this.player1.velocityY = 0;
     }
 
-    // Update player2 using "ArrowUp" and "ArrowDown"
     if (this.keys["ArrowUp"]) {
       this.player2.velocityY = -this.player2.speed;
     } else if (this.keys["ArrowDown"]) {
@@ -88,7 +126,6 @@ export default class Game {
       this.player2.velocityY = 0;
     }
 
-    // Update player positions with frame-rate independence
     this.player1.update(deltaTime, this.boardHeight);
     this.player2.update(deltaTime, this.boardHeight);
 
@@ -174,6 +211,8 @@ export default class Game {
 
   startGame() {
     if (!this.isPlaying) {
+      this.ball = this.createBall();
+
       // Reset scores if a player has won
       if (
         this.player1.score >= this.winningScore ||

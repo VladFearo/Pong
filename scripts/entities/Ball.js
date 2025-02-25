@@ -1,21 +1,25 @@
+import { GAME_CONFIG } from "../config/gameConfig.js";
+
 export default class Ball {
-  constructor(x, y, radius, speedX, speedY) {
+  constructor(x, y, radius, baseSpeed) {
     this.x = x;
     this.y = y;
     this.radius = radius;
-    this.speedX = speedX;
-    this.speedY = speedY;
-    this.baseSpeed = 200; // Base speed for resetting
+    this.baseSpeed = baseSpeed;
+    this.resetSpeed();
+  }
+
+  resetSpeed() {
+    const angle = (Math.random() * Math.PI) / 4 - Math.PI / 8;
+    const direction = Math.random() > 0.5 ? 1 : -1;
+    this.speedX = Math.cos(angle) * this.baseSpeed * direction;
+    this.speedY = Math.sin(angle) * this.baseSpeed;
   }
 
   reset(boardWidth, boardHeight) {
     this.x = boardWidth / 2;
     this.y = boardHeight / 2;
-    // Randomize direction
-    const angle = (Math.random() * Math.PI) / 4 - Math.PI / 8; // ±22.5 degrees
-    const direction = Math.random() > 0.5 ? 1 : -1;
-    this.speedX = Math.cos(angle) * this.baseSpeed * direction;
-    this.speedY = Math.sin(angle) * this.baseSpeed;
+    this.resetSpeed();
   }
 
   update(deltaTime, boardWidth, boardHeight, player1, player2) {
