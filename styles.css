@@ -4,21 +4,29 @@
 }
 body {
   text-align: center;
-  background-color: #eeeeee;
+  background: linear-gradient(
+      15deg,
+      rgba(212, 232, 235, 0.9) 0%,
+      rgba(118, 171, 174, 0.95) 100%
+    ),
+    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhhYWGMYAEYB8RmROaABADeOQ8CXl/xfgAAAABJRU5ErkJggg==");
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   flex-direction: column;
-  position: fixed;
+  position: relative;
   width: 100%;
+  margin: 0;
 }
-
 canvas {
   border-top: 5px solid #31363f;
   border-bottom: 5px solid #31363f;
+  border-left: 2px dashed #31363f3d;
+  border-right: 2px dashed #31363f3d;
   border-radius: 3px;
   background-color: #76abae;
+  box-shadow: 0 10px 30px rgba(49, 54, 63, 0.3);
 }
 
 button {
@@ -50,7 +58,17 @@ button:disabled {
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  margin-top: 10px;
+  margin: 20px 0;
+  transition: all 0.3s ease;
+  height: 80px;
+}
+
+.speed-container.hidden {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  margin: 0;
+  pointer-events: none;
 }
 
 .speed-label {

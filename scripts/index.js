@@ -20,14 +20,14 @@ window.onload = () => {
     game.startGame();
     startBtn.disabled = true;
     resetBtn.disabled = false;
-    speedContainer.style.display = "none";
+    speedContainer.classList.add("hidden");
   });
 
   resetBtn.addEventListener("click", () => {
     game.reset();
     startBtn.disabled = false;
     resetBtn.disabled = true;
-    speedContainer.style.display = "block";
+    speedContainer.classList.remove("hidden");
   });
 
   const slowRadio = document.querySelector("#slow");
