@@ -5,6 +5,8 @@ export default class LocalMultiplayerMode extends GameMode {
     super(game);
   }
 
+  init() {}
+
   handleInput(deltaTime) {
     // Player 1 (W/S keys)
     if (this.game.keys["KeyW"]) {
