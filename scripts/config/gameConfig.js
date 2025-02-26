@@ -6,7 +6,7 @@ export const GAME_CONFIG = {
   PLAYER_HEIGHT: 80,
   PLAYER_SPEED: 500,
   BALL_RADIUS: 10,
-  BALL_SPEED: 200,
+  BALL_SPEED: 400,
   COLORS: {
     PLAYER: "#222831",
     BALL: "#eeeeee",
