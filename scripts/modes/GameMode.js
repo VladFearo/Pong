@@ -3,7 +3,9 @@ export default class GameMode {
     this.game = game;
   }
 
-  init() {}
+  init() {
+    throw new Error("GameMode.init() must be implemented by subclass");
+  }
   handleInput(deltaTime) {
     throw new Error("GameMode.handleInput() must be implemented by subclass");
   }
