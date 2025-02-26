@@ -1,4 +1,4 @@
-import GameMode from "./GameMode";
+import GameMode from "./GameMode.js";
 
 export default class LocalMultiplayerMode extends GameMode {
   constructor(game) {
