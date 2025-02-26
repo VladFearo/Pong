@@ -1,5 +1,3 @@
-import { GAME_CONFIG } from "../config/gameConfig.js";
-
 export default class Ball {
   constructor(x, y, radius, baseSpeed) {
     this.x = x;
