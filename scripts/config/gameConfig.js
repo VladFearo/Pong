@@ -12,4 +12,21 @@ export const GAME_CONFIG = {
     BALL: "#eeeeee",
     CENTER_LINE: "#222831",
   },
+  AI_DIFFICULTY: {
+    easy: {
+      REACTION_TIME: 0.5, // Seconds before AI reacts
+      ACCURACY: 0.6, // How accurate AI prediction is (0-1)
+      SPEED_MULTIPLIER: 0.7, // Multiplier for paddle speed
+    },
+    normal: {
+      REACTION_TIME: 0.3,
+      ACCURACY: 0.8,
+      SPEED_MULTIPLIER: 1.0,
+    },
+    hard: {
+      REACTION_TIME: 0.1,
+      ACCURACY: 0.95,
+      SPEED_MULTIPLIER: 1.2,
+    },
+  },
 };
