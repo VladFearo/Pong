@@ -1,6 +1,9 @@
 import Ball from "./entities/Ball.js";
 import Player from "./entities/Player.js";
 import { GAME_CONFIG } from "./config/gameConfig.js";
+import LocalMultiplayerMode from "./modes/LocalMultiplayerMode.js";
+import SinglePlayerMode from "./modes/SinglePlayerMode.js";
+import OnlineMultiplayerMode from "./modes/OnlineMultiplayerMode.js";
 
 export default class Game {
   constructor(canvas) {
@@ -14,6 +17,14 @@ export default class Game {
     this.winningScore = GAME_CONFIG.WINNING_SCORE;
     this.isPlaying = false;
     this.currentSpeed = "normal";
+
+    this.modes = {
+      localMultiplayer: new LocalMultiplayerMode(this),
+      singlePlayer: new SinglePlayerMode(this),
+      onlineMultiplayer: new OnlineMultiplayerMode(this),
+    };
+
+    this.currentMode = this.modes.localMultiplayer;
 
     this.ball = this.createBall();
 
@@ -34,6 +45,31 @@ export default class Game {
 
     this.lastTime = 0;
     this.addEventListeners();
+    this.currentMode.init();
+  }
+
+  setGameMode(modeName) {
+    if (!this.modes[modeName]) {
+      console.error(`Game mode "${modeName}" not found`);
+      return false;
+    }
+
+    // Clean up existing mode if needed
+    if (this.currentMode && typeof this.currentMode.cleanup === "function") {
+      this.currentMode.cleanup();
+    }
+
+    // Set and initialize new mode
+    this.currentMode = this.modes[modeName];
+    this.currentMode.init();
+
+    return true;
+  }
+
+  setAIDifficulty(level) {
+    if (this.currentMode instanceof SinglePlayerMode) {
+      this.currentMode.setDifficulty(level);
+    }
   }
 
   createBall() {
@@ -95,12 +131,20 @@ export default class Game {
       this.player2.score >= this.winningScore
     ) {
       this.isPlaying = false;
+
+      // Show setup controls when game is over
+      const gameSetupControls = document.getElementById("gameSetupControls");
+      if (gameSetupControls) {
+        gameSetupControls.classList.remove("hidden");
+      }
+
       return true;
     }
     return false;
   }
 
   reset() {
+    this.currentMode.reset();
     this.player1.reset();
     this.player2.reset();
     this.ball.reset(this.boardWidth, this.boardHeight);
@@ -110,24 +154,11 @@ export default class Game {
   }
 
   update(deltaTime) {
-    if (this.keys["KeyW"]) {
-      this.player1.velocityY = -this.player1.speed;
-    } else if (this.keys["KeyS"]) {
-      this.player1.velocityY = this.player1.speed;
-    } else {
-      this.player1.velocityY = 0;
+    // Handle input and update through the current game mode
+    if (this.currentMode) {
+      this.currentMode.handleInput(deltaTime);
+      this.currentMode.update(deltaTime);
     }
-
-    if (this.keys["ArrowUp"]) {
-      this.player2.velocityY = -this.player2.speed;
-    } else if (this.keys["ArrowDown"]) {
-      this.player2.velocityY = this.player2.speed;
-    } else {
-      this.player2.velocityY = 0;
-    }
-
-    this.player1.update(deltaTime, this.boardHeight);
-    this.player2.update(deltaTime, this.boardHeight);
 
     if (this.isPlaying) {
       this.ball.update(
@@ -177,8 +208,14 @@ export default class Game {
           this.boardHeight / 2 + 50
         );
       } else if (this.player2.score >= this.winningScore) {
+        // Customize message based on game mode
+        const winnerText =
+          this.currentMode instanceof SinglePlayerMode
+            ? "AI Wins! Press Start to Play Again!"
+            : "Player 2 Wins! Press Start to Play Again!";
+
         this.ctx.fillText(
-          "Player 2 Wins! Press Start to Play Again!",
+          winnerText,
           this.boardWidth / 2,
           this.boardHeight / 2 + 50
         );
@@ -222,6 +259,19 @@ export default class Game {
       }
       this.isPlaying = true;
       this.ball.reset(this.boardWidth, this.boardHeight);
+    }
+  }
+
+  // Methods for online multiplayer
+  connectToServer(serverUrl) {
+    if (this.currentMode instanceof OnlineMultiplayerMode) {
+      this.currentMode.connect(serverUrl);
+    }
+  }
+
+  disconnectFromServer() {
+    if (this.currentMode instanceof OnlineMultiplayerMode) {
+      this.currentMode.cleanup();
     }
   }
 }
