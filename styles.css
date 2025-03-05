@@ -4,12 +4,7 @@
 }
 body {
   text-align: center;
-  background: linear-gradient(
-      15deg,
-      rgba(212, 232, 235, 0.9) 0%,
-      rgba(118, 171, 174, 0.95) 100%
-    ),
-    url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhhYWGMYAEYB8RmROaABADeOQ8CXl/xfgAAAABJRU5ErkJggg==");
+  background: #4c516d;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,13 +14,19 @@ body {
   width: 100%;
   margin: 0;
 }
+
+h1 {
+  text-shadow: 0 0 10px rgba(80, 114, 167, 0.8),
+    0 0 20px rgba(80, 114, 167, 0.6), 0 0 30px rgba(80, 114, 167, 0.4),
+    0 0 40px rgba(80, 114, 167, 0.2);
+}
 canvas {
   border-top: 5px solid #31363f;
   border-bottom: 5px solid #31363f;
   border-left: 2px dashed #31363f3d;
   border-right: 2px dashed #31363f3d;
   border-radius: 3px;
-  background-color: #76abae;
+  background-color: #5072a7;
   box-shadow: 0 10px 30px rgba(49, 54, 63, 0.3);
 }
 
@@ -61,8 +62,17 @@ button:disabled {
   margin: 20px 0;
   transition: all 0.3s ease;
   height: 80px;
+  margin-top: 30px;
+  padding: 15px;
+  max-width: 450px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  /* Adding background color to match instructions */
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(49, 54, 63, 0.3);
+  border-radius: 5px;
 }
-
 .speed-container.hidden {
   opacity: 0;
   visibility: hidden;
@@ -73,7 +83,7 @@ button:disabled {
 
 .speed-label {
   font-size: 1rem;
-  color: #31363f;
+  color: #15171b;
   margin: 0;
 }
 
@@ -117,7 +127,6 @@ label:hover {
   background-color: #555555;
 }
 
-/* Additional styles for game mode controls */
 .controls-container {
   display: flex;
   flex-wrap: wrap;
@@ -133,11 +142,16 @@ label:hover {
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.2);
+  /* Added border to match instructions */
+  border: 2px solid rgba(49, 54, 63, 0.3);
 }
 
 .control-group label {
   font-size: 0.8rem;
-  color: #31363f;
+  color: #15171b;
   background-color: transparent;
   border: none;
   padding: 0;
@@ -176,6 +190,8 @@ input[type="text"] {
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 5px;
   max-width: 600px;
+  /* Added border for consistency */
+  border: 2px solid rgba(49, 54, 63, 0.3);
 }
 
 .instructions p {
@@ -197,13 +213,11 @@ input[type="text"] {
   margin: 0;
 }
 
-/* Style to show disabled option */
 select option:disabled {
   color: #999;
   font-style: italic;
 }
 
-/* Add these new styles for the nested control structure */
 .nested-control {
   margin-top: 15px;
   padding-top: 15px;
@@ -230,17 +244,6 @@ select option:disabled {
   width: 80%;
 }
 
-/* Update the existing control-group class */
-.control-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 15px;
-  border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
 .setup-controls {
   width: 100%;
   max-width: 800px;
@@ -249,7 +252,7 @@ select option:disabled {
   overflow: hidden;
   margin: 20px 0 0px 0;
   opacity: 1;
-  padding: 10px 0;
+  padding: 15px 0;
 }
 
 .setup-controls.hidden {
