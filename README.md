@@ -17,7 +17,7 @@ A classic Pong game implementation using vanilla JavaScript and HTML5 Canvas wit
 - Configurable AI difficulty (easy, normal, hard)
 
 ## How to Play
-Hosted on: https://github.com/VladFearo/Pong
+Hosted on: [https://github.com/VladFearo/Pong](https://vladfearo.github.io/Pong/)
 1. Open `index.html` in a modern web browser
 2. Select your preferred game mode
 3. Adjust difficulty or speed settings as desired
