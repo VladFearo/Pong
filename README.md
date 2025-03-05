@@ -1,106 +1,126 @@
 # Pong Game
-
-A classic Pong game implementation using vanilla JavaScript and HTML5 Canvas. This two-player game features a modern design, score tracking, and responsive controls.
+A classic Pong game implementation using vanilla JavaScript and HTML5 Canvas with multiple game modes and customizable settings.
 
 ## Features
-
-- Two-player gameplay
+- Multiple game modes:
+  - Two-player local multiplayer
+  - Single-player vs AI with adjustable difficulty
+  - Online multiplayer (coming soon)
 - Smooth paddle movement with frame-rate independence
 - Score tracking
 - Advanced ball physics with angle-based paddle rebounds
 - Win condition at 5 points
 - Responsive design with clear visual feedback
 - Center line and score display
+- Adjustable game speed (slow, normal, fast)
 - Start/reset game functionality
+- Configurable AI difficulty (easy, normal, hard)
 
 ## How to Play
-
 1. Open `index.html` in a modern web browser
-2. Click the "Start Game" button to begin
-3. Controls:
+2. Select your preferred game mode
+3. Adjust difficulty or speed settings as desired
+4. Click the "Start Game" button to begin
+5. Controls:
    - Player 1 (Left Paddle):
      - W: Move Up
      - S: Move Down
-   - Player 2 (Right Paddle):
+   - Player 2 (Right Paddle) / AI:
      - ↑ (Up Arrow): Move Up
      - ↓ (Down Arrow): Move Down
-4. First player to score 5 points wins
-5. Click "Start Game" to play again after a game ends
+6. First player to score 5 points wins
+7. Click "Reset" to return to the setup screen
 
 ## Project Structure
-
 ```
 pong-game/
 │
 ├── index.html          # Main HTML file
-├── index.js           # Game logic and classes
-└── styles.css         # Game styling
+├── styles.css          # Game styling
+├── scripts/
+│   ├── index.js        # Entry point and UI handlers
+│   ├── Game.js         # Main game controller
+│   ├── entities/
+│   │   ├── Ball.js     # Ball physics and collision
+│   │   └── Player.js   # Paddle controls and scoring
+│   ├── modes/
+│   │   ├── GameMode.js           # Base class for game modes
+│   │   ├── LocalMultiplayerMode.js  # Two-player implementation
+│   │   ├── SinglePlayerMode.js   # AI opponent implementation
+│   │   └── OnlineMultiplayerMode.js # Online play (placeholder)
+│   └── config/
+│       └── gameConfig.js  # Game constants and configuration
 ```
 
 ### File Details
-
 #### index.html
-Contains the basic structure of the game including:
+Contains the game interface including:
 - Canvas element for game rendering
-- Start button
+- Game mode selection controls
+- AI difficulty settings
+- Game speed controls
+- Start/reset buttons
 - Game instructions
-- Required script and style links
-
-#### index.js
-Contains all game logic divided into three main classes:
-- `Player`: Handles paddle movement and scoring
-- `Ball`: Manages ball physics and collision detection
-- `Game`: Controls game state and main game loop
 
 #### styles.css
 Contains styling for:
-- Game canvas
-- Start button
-- Instructions text
-- Overall layout
+- Game canvas and visuals
+- Control panels and buttons
+- Game mode selection interfaces
+- Responsive layout and animations
+
+#### Game.js
+Central controller that:
+- Manages the game loop and state
+- Switches between game modes
+- Handles ball physics and scoring
+- Controls game flow (start, reset, win conditions)
+
+#### Modes
+The game uses a flexible mode system:
+- `GameMode.js`: Base class defining the interface for all modes
+- `LocalMultiplayerMode.js`: Standard two-player gameplay
+- `SinglePlayerMode.js`: Implements AI opponent with configurable difficulty
+- `OnlineMultiplayerMode.js`: Structure for future online multiplayer
 
 ## Technical Implementation
-
 ### Game Physics
 - Frame-rate independent movement
 - Dynamic ball angles based on paddle hit location
 - Collision detection for paddles and boundaries
-- Ball speed remains constant during gameplay
+- Ball speed adjustable via game settings
 
-### Scoring System
-- Points awarded when ball passes paddle
-- Score display in top corners
-- Game ends at 5 points
-- Automatic reset functionality
+### AI Implementation
+- Predictive algorithm that anticipates ball trajectory
+- Three difficulty levels affecting:
+  - Reaction time
+  - Prediction accuracy
+  - Paddle speed
 
-### Animation
-- Smooth game loop using requestAnimationFrame
-- Consistent 60 FPS target
-- Efficient canvas clearing and redrawing
+### Architecture
+- Object-oriented design with class inheritance
+- Modular code organization with ES6 modules
+- Centralized configuration in gameConfig.js
+- Event-driven UI with responsive controls
 
 ## Browser Support
-
-Works in all modern browsers that support HTML5 Canvas:
+Works in all modern browsers that support HTML5 Canvas and ES6:
 - Chrome (recommended)
 - Firefox
 - Safari
 - Edge
 
 ## Future Improvements
-
-Potential enhancements that could be added:
-- Sound effects
-- Power-ups
-- AI opponent option
+Planned enhancements:
+- Implementation of online multiplayer using Socket.io
+- Sound effects and music
+- Power-ups and special game modes
 - Mobile touch controls
 - Customizable paddle/ball colors
 - Adjustable winning score
-- Network multiplayer
 
 ## Development
-
 To modify the game:
-
 1. Clone the repository
 2. Make changes to the relevant files
 3. Test in a web browser
@@ -109,5 +129,4 @@ To modify the game:
 For local development, using a local web server is recommended to avoid CORS issues.
 
 ## Credits
-
 Created as a modern implementation of the classic Pong game, originally developed by Atari in 1972.
