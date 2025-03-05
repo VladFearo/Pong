@@ -10,7 +10,13 @@
     <h1>Pong Game</h1>
     <canvas></canvas>
     
-   <!-- Game setup controls container -->
+    <!-- Game control buttons moved above setup controls -->
+    <div class="game-controls">
+        <button id="startButton">Start Game</button>
+        <button disabled="true" id="resetButton">Reset</button>
+    </div>
+    
+    <!-- Game setup controls container -->
     <div id="gameSetupControls" class="setup-controls">
         <!-- Game mode selection -->
         <div class="controls-container">
@@ -48,12 +54,6 @@
                 <label for="fast">Fast</label>
             </div>
         </div>
-    </div>
-    
-    <!-- Game control buttons -->
-    <div class="game-controls">
-        <button id="startButton">Start Game</button>
-        <button disabled="true" id="resetButton">Reset</button>
     </div>
     
     <div class="instructions">
